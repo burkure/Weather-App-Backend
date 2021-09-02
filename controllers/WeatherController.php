@@ -30,7 +30,7 @@ class WeatherController extends Controller
     public function actionCity($id = null)
     {
        
-        $apikey = '9cb14f9d38833f4d901edd403fbfd9f5'; // Api key
+        $apikey = ''; // Add api Key
         $cityName = $id != null ? $id :'' ;  //get city name 
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, "http://api.openweathermap.org/data/2.5/weather?q=".$cityName."&APPID=".$apikey);
@@ -45,7 +45,7 @@ class WeatherController extends Controller
             return array('status' => false, 'data'=> $dataWeather);  //send respose if not having any data
         }
         return array('status' => true, 'data'=> $dataWeather);
-        
+
         // $kelvin = $dataWeather->main->temp;
         // $dataWeather->main->temp_celcius = round($kelvin - 273.15);
 
