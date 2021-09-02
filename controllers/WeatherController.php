@@ -30,8 +30,8 @@ class WeatherController extends Controller
     public function actionCity($id = null)
     {
        
-        $apikey = '9cb14f9d38833f4d901edd403fbfd9f5';
-        $cityName = $id != null ? $id :'' ;
+        $apikey = '9cb14f9d38833f4d901edd403fbfd9f5'; // Api key
+        $cityName = $id != null ? $id :'' ;  //get city name 
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, "http://api.openweathermap.org/data/2.5/weather?q=".$cityName."&APPID=".$apikey);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
@@ -42,21 +42,19 @@ class WeatherController extends Controller
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         
         if($dataWeather->cod != 200){
-            return array('status' => false, 'data'=> $dataWeather);
+            return array('status' => false, 'data'=> $dataWeather);  //send respose if not having any data
         }
-
-        $kelvin = $dataWeather->main->temp;
-        $dataWeather->main->temp_celcius = round($kelvin - 273.15);
-
-        $weather = new \stdClass();
-        $weather->temp = isset($dataWeather->main) ? $dataWeather->main->temp_celcius : null;
-        $weather->weather_type = isset($dataWeather->weather) ? $dataWeather->weather[0]->main : null;
-        $weather->weather_icon = isset($dataWeather->weather) ? 'http://openweathermap.org/img/wn/'.$dataWeather->weather[0]->icon.'@2x.png'  : null;
-        $weather->name = isset($dataWeather->name) ? $dataWeather->name : null;
-        $weather->country = isset($dataWeather->sys) ? $dataWeather->sys->country : null;
-        $weather->coord = isset($dataWeather->coord) ? $dataWeather->coord : null;
-
-       
         return array('status' => true, 'data'=> $dataWeather);
+        
+        // $kelvin = $dataWeather->main->temp;
+        // $dataWeather->main->temp_celcius = round($kelvin - 273.15);
+
+        // $weather = new \stdClass();
+        // $weather->temp = isset($dataWeather->main) ? $dataWeather->main->temp_celcius : null;
+        // $weather->weather_type = isset($dataWeather->weather) ? $dataWeather->weather[0]->main : null;
+        // $weather->weather_icon = isset($dataWeather->weather) ? 'http://openweathermap.org/img/wn/'.$dataWeather->weather[0]->icon.'@2x.png'  : null;
+        // $weather->name = isset($dataWeather->name) ? $dataWeather->name : null;
+        // $weather->country = isset($dataWeather->sys) ? $dataWeather->sys->country : null;
+        // $weather->coord = isset($dataWeather->coord) ? $dataWeather->coord : null;
     }
 }
